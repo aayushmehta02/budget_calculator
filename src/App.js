@@ -18,16 +18,38 @@ const initialExpenses = [
 
 
 function App() {
-  console.log(useState())
-  const [expenses, expenses2] = useState(initialExpenses)
   
- 
+  const [expenses, setExpenses] = useState(initialExpenses);
+  
+  const [charge, setCharge] = useState('');
+
+  const [amount, setAmount] = useState('');
+
+  const handleCharge = e =>{
+    console.log(`charge:   ${e.target.value}`)
+    setCharge(e.target.value)
+  }
+  const handleAmount = e =>{
+    console.log(`amount:   ${e.target.value}`)
+    setAmount(e.target.value)
+  }
+  const handleSubmit = e =>{
+    e.preventDefault();
+    console.log(charge,amount)
+    if(charge !== " " && amount > 0){
+      const singleExpense = {id: uuid(), charge: charge, amount:amount}
+      setExpenses(singleExpense)
+    }else{
+
+    }
+  }
+  
   return (
     <div className="App">
       <Alert/>
       <h1>BUDGET CALCULATOR</h1>
-      <main>
-        <ExpressForms></ExpressForms>
+      <main className='App'>
+        <ExpressForms charge={charge} amount={amount} handleAmount={handleAmount} handleCharge={handleCharge} handleSubmit={handleSubmit}></ExpressForms>
         <ExpenseList expenses = {expenses}/>
       </main>
       <h1>
