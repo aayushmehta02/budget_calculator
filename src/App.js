@@ -8,9 +8,9 @@ import { Alert } from './components/Alert';
 import { v4 as uuid } from 'uuid';
 
 const initialExpenses = [
-  {id: uuid(), charge: "rent", amount: 1000},
-  {id: uuid(), charge:"car pay", amount: 100},
-  {id: uuid(), charge: "credit cards", amount: 1200},
+  // {id: uuid(), charge: "rent", amount: 1000},
+  // {id: uuid(), charge:"car pay", amount: 100},
+  // {id: uuid(), charge: "credit cards", amount: 1200},
 
 ]
 // console.log(initialExpenses)
@@ -32,13 +32,14 @@ function App() {
   const handleAmount = e =>{
     console.log(`amount:   ${e.target.value}`)
     setAmount(e.target.value)
+    
   }
   const handleSubmit = e =>{
     e.preventDefault();
     console.log(charge,amount)
     if(charge !== " " && amount > 0){
       const singleExpense = {id: uuid(), charge: charge, amount:amount}
-      setExpenses(singleExpense)
+      setExpenses([...expenses, singleExpense])
     }else{
 
     }
