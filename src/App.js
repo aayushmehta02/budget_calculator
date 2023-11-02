@@ -25,6 +25,8 @@ function App() {
 
   const [amount, setAmount] = useState('');
 
+  const[alert, setAlert] = useState({show: false})
+
   const handleCharge = e =>{
     console.log(`charge:   ${e.target.value}`)
     setCharge(e.target.value)
@@ -34,20 +36,33 @@ function App() {
     setAmount(e.target.value)
     
   }
+
+  const handleAlert = ({type, text}) =>{
+    setAlert({show: true, type, text})
+    setTimeout(()=>{
+      setAlert({show:false})
+    },5000)
+  }
   const handleSubmit = e =>{
     e.preventDefault();
     console.log(charge,amount)
     if(charge !== " " && amount > 0){
       const singleExpense = {id: uuid(), charge: charge, amount:amount}
       setExpenses([...expenses, singleExpense])
-    }else{
+      handleAlert({type:'success', text:"Item added"})
+      setCharge('');
+      setAmount('');
 
+    }else{
+      handleAlert({type: 'danger',
+       text: 'charge cant be an empty value and amount value has to be greater than zero'});
     }
   }
   
   return (
     <div className="App">
-      <Alert/>
+      {alert.show && <Alert type={alert.type} text= {alert.text} />}
+     
       <h1>BUDGET CALCULATOR</h1>
       <main className='App'>
         <ExpressForms charge={charge} amount={amount} handleAmount={handleAmount} handleCharge={handleCharge} handleSubmit={handleSubmit}></ExpressForms>
@@ -56,7 +71,7 @@ function App() {
       <h1>
         TOTAL SPENDING: <span className='total'>
           ${expenses.reduce((acc,curr)=>{
-            return (acc+= curr.amount)
+            return (acc+= parseInt(curr.amount))
           },0)}
         </span>
       </h1>
